@@ -1,3 +1,3 @@
-module github.com/shopspring/decimal
+module github.com/johnnybravo-xyz/decimal
 
-go 1.7
+go 1.21
