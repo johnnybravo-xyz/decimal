@@ -25,6 +25,8 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/vmihailenco/msgpack"
 )
 
 // DivisionPrecision is the number of decimal places in the result when it
@@ -2005,4 +2007,22 @@ func (d Decimal) Tan() Decimal {
 		y = y.Neg()
 	}
 	return y
+}
+
+func (s *Decimal) EncodeMsgpack(enc *msgpack.Encoder) error {
+	return enc.EncodeString(s.String())
+}
+
+func (s *Decimal) DecodeMsgpack(dec *msgpack.Decoder) error {
+	v, err := dec.DecodeString()
+	if err != nil {
+		return err
+	}
+
+	*s, err = NewFromString(v)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
